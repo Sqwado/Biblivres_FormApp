@@ -37,7 +37,7 @@ namespace Biblivres.Forms
         {
             try
             {
-                connection = new MySqlConnection(Globals.connectionString);
+                connection = new MySqlConnection(Globals.Globals.connectionString);
                 connection.Open();
             }
             catch (MySqlException e)

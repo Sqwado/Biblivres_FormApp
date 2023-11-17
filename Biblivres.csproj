@@ -303,6 +303,7 @@
     <Compile Include="Forms\FormRead.Designer.cs">
       <DependentUpon>FormRead.cs</DependentUpon>
     </Compile>
+    <Compile Include="Globals\ComboItem.cs" />
     <Compile Include="Globals\Globals.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Biblivres;
 
 namespace Biblivres.Globals
 {
-    public static class Globals
+    internal class ComboItem
     {
-        public static string connectionString = Environment.GetEnvironmentVariable("CONNECTIONSTRING");
+        public int ID { get; set; }
+        public string Text { get; set; }
     }
 }
-

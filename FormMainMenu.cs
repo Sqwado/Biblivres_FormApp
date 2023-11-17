@@ -144,6 +144,7 @@ namespace Biblivres
         private void iconBtnNew_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color2);
+            OpenChildForm(new FormNew(RGBColors.color2,this));
         }
 
         private void iconBtnUpdate_Click(object sender, EventArgs e)
@@ -158,7 +159,10 @@ namespace Biblivres
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            currentChilfForm.Close();
+            if(currentChilfForm != null)
+            {
+                currentChilfForm.Close();
+            }            
             Reset();
         }
 
