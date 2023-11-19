@@ -285,11 +285,23 @@
     <Compile Include="FormMainMenu.Designer.cs">
       <DependentUpon>FormMainMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormChange.Designer.cs">
+      <DependentUpon>FormChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormNew.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormNew.Designer.cs">
       <DependentUpon>FormNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormManage.Designer.cs">
+      <DependentUpon>FormManage.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormReadOne.cs">
       <SubType>Form</SubType>
@@ -310,8 +322,14 @@
     <EmbeddedResource Include="FormMainMenu.resx">
       <DependentUpon>FormMainMenu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormChange.resx">
+      <DependentUpon>FormChange.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormNew.resx">
       <DependentUpon>FormNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormManage.resx">
+      <DependentUpon>FormManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormRead.resx">
       <DependentUpon>FormRead.cs</DependentUpon>

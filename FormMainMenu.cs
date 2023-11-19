@@ -110,12 +110,6 @@ namespace Biblivres
             labelCurrentChildForm.Text = chilForm.Name;
         }
 
-        // Close app button
-        private void CloseButton_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void Form1_Resize(object sender, EventArgs e)
         {
             AdjustForm();
@@ -147,14 +141,10 @@ namespace Biblivres
             OpenChildForm(new FormNew(RGBColors.color2,this));
         }
 
-        private void iconBtnUpdate_Click(object sender, EventArgs e)
+        private void iconBtnManage_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color3);
-        }
-
-        private void iconBtnDelete_Click(object sender, EventArgs e)
-        {
-            ActivateButton(sender, RGBColors.color4);
+            OpenChildForm(new FormManage(RGBColors.color3,this));
         }
 
         private void btnHome_Click(object sender, EventArgs e)
@@ -279,6 +269,28 @@ namespace Biblivres
         private void FormMainMenu_Load(object sender, EventArgs e)
         {
             formSize = this.ClientSize;
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void buttonMax_Click(object sender, EventArgs e)
+        {
+            if(WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+        }
+
+        private void buttonMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

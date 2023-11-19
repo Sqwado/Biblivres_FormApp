@@ -15,20 +15,27 @@ using System.Windows.Forms;
 namespace Biblivres.Forms
 {
 
-    public partial class FormNew : Form
+    public partial class FormChange : Form
     {
         // Fields
         private Color MainColor;
+        private int BookId;
         private FormMainMenu OpenFrom;
         private MySqlConnection connection;
         private MySqlCommand command;
         private byte[] MiniatureFile;
         private MySqlDataAdapter data;
 
-        public FormNew(Color mainColor, FormMainMenu openFrom)
+        private ComboItem[] Langues = new ComboItem[] { };
+        private ComboItem[] Auteurs = new ComboItem[] { };
+        private ComboItem[] Genres = new ComboItem[] { };
+        private ComboItem[] Types = new ComboItem[] { };
+
+        public FormChange(Color mainColor, FormMainMenu openFrom, int bookId)
         {
             MainColor = mainColor;
             OpenFrom = openFrom;
+            BookId = bookId;
             InitConnection();
             InitializeComponent();
             this.BackColor = MainColor;
@@ -36,6 +43,7 @@ namespace Biblivres.Forms
             GetAuteur();
             GetGenre();
             GetTypes();
+            GetLivre();
 
         }
 
@@ -63,7 +71,11 @@ namespace Biblivres.Forms
 
             foreach (DataRow row in table.Rows)
             {
-                comboBoxLangue.Items.Add(new ComboItem { ID = (int)row["Id_Langue"], Text = (string)row["Language"] });
+                ComboItem langue = new ComboItem { ID = (int)row["Id_Langue"], Text = (string)row["Language"] };
+                Console.WriteLine("test");
+                Console.WriteLine(Langues);
+                Langues = Langues.Append(langue).ToArray();
+                comboBoxLangue.Items.Add(langue);
             }
             comboBoxLangue.SelectedIndex = 0;
         }
@@ -78,7 +90,9 @@ namespace Biblivres.Forms
 
             foreach (DataRow row in table.Rows)
             {
-                comboBoxAuteur.Items.Add(new ComboItem { ID = (int)row["Id_Auteur"], Text = (string)row["Nom"] });
+                ComboItem auteur = new ComboItem { ID = (int)row["Id_Auteur"], Text = (string)row["Nom"] };
+                Auteurs = Auteurs.Append(auteur).ToArray();
+                comboBoxAuteur.Items.Add(auteur);
             }
             comboBoxAuteur.SelectedIndex = 0;
         }
@@ -93,7 +107,9 @@ namespace Biblivres.Forms
 
             foreach (DataRow row in table.Rows)
             {
-                comboBoxGenre.Items.Add(new ComboItem { ID = (int)row["Id_Genre"], Text = (string)row["Titre_Genre"] });
+                ComboItem genre = new ComboItem { ID = (int)row["Id_Genre"], Text = (string)row["Titre_Genre"] };
+                Genres = Genres.Append(genre).ToArray();
+                comboBoxGenre.Items.Add(genre);
             }
             comboBoxGenre.SelectedIndex = 0;
         }
@@ -108,9 +124,52 @@ namespace Biblivres.Forms
 
             foreach (DataRow row in table.Rows)
             {
-                comboBoxType.Items.Add(new ComboItem { ID = (int)row["Id_Types"], Text = (string)row["Types"] });
+                ComboItem type = new ComboItem { ID = (int)row["Id_Types"], Text = (string)row["Types"] };
+                Types = Types.Append(type).ToArray();
+                comboBoxType.Items.Add(type);
             }
             comboBoxType.SelectedIndex = 0;
+        }
+
+        private ComboItem GetComboById(ComboItem[] comboItems, int id)
+        {
+            foreach (ComboItem item in comboItems)
+            {
+                if (item.ID == id)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        private void GetLivre()
+        {
+            string query = "select * from Livres where Id_Livre = @Id_Livre";
+            command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Id_Livre", BookId);
+            data = new MySqlDataAdapter(command);
+            DataTable table = new DataTable();
+            data.Fill(table);
+
+            foreach (DataRow row in table.Rows)
+            {
+                textBoxTitre.Text = (string)row["Titre_Livre"];
+                textBoxIntrigue.Text = (string)row["Intrigue"];
+                textBoxEditeur.Text = (string)row["Editeur"];
+                numericUpDownPrix.Value = Convert.ToDecimal(row["Prix"]);
+                numericUpDownPage.Value = (int)row["Nb_Pages"];
+                numericUpDownQuantity.Value = (int)row["Quantity"];
+                dateTimePickerDate.Value = (DateTime)row["Date_Publi"];
+                MiniatureFile = (byte[])row["Miniature"];
+                pictureBoxMiniature.Image = Image.FromStream(new MemoryStream(MiniatureFile));
+                buttonMiniature.Text = "Miniature";
+                comboBoxLangue.SelectedItem = GetComboById(Langues,(int)row["Id_Langue"]);
+                comboBoxAuteur.SelectedItem = GetComboById(Auteurs, (int)row["Id_Auteur"]);
+                comboBoxGenre.SelectedItem = GetComboById(Genres, (int)row["Id_Genre"]);
+                comboBoxType.SelectedItem = GetComboById(Types, (int)row["Id_Types"]);
+            }
         }
 
         private void FormNew_Resize(object sender, EventArgs e)
@@ -131,18 +190,18 @@ namespace Biblivres.Forms
             }
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void buttonChange_Click(object sender, EventArgs e)
         {
             if (textBoxTitre.Text != "" && MiniatureFile != null && textBoxIntrigue.Text != "" && textBoxEditeur.Text != "")
             {
-                var confirmResult = MessageBox.Show("Are you sure to add this livre ??", "Confirm Add!!", MessageBoxButtons.YesNo);
+                var confirmResult = MessageBox.Show("Are you sure to modify this livre ??", "Confirm Add!!", MessageBoxButtons.YesNo);
                 if (confirmResult == DialogResult.Yes)
                 {
-                    AddLivre();
+                    ChangeLivre();
                 }
                 else
                 {
-                    MessageBox.Show("Add canceled!!");
+                    MessageBox.Show("Change canceled!!");
                 }
             }
             else
@@ -152,11 +211,11 @@ namespace Biblivres.Forms
 
         }
 
-        private void AddLivre()
+        private void ChangeLivre()
         {
             try
             {
-                string query = "insert into Livres (Titre_Livre, Miniature, Intrigue, Id_Langue, Date_Publi, Id_Auteur, Id_Genre, Id_Types, Prix, Nb_Pages, Editeur, Quantity) values(@Titre_Livre, @Miniature, @Intrigue, @Id_Langue, @Date_Publi, @Id_Auteur, @Id_Genre, @Id_Types, @Prix, @Nb_Pages, @Editeur, @Quantity);";
+                string query = "update Livres SET Titre_Livre = @Titre_Livre, Miniature = @Miniature, Intrigue = @Intrigue, Id_Langue = @Id_Langue, Date_Publi = @Date_Publi, Id_Auteur = @Id_Auteur, Id_Genre = @Id_Genre, Id_Types = @Id_Types, Prix = @Prix, Nb_Pages = @Nb_Pages, Editeur = @Editeur, Quantity = @Quantity where Id_Livre = @Id_Livre;";
                 command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Titre_Livre", textBoxTitre.Text);
                 command.Parameters.AddWithValue("@Miniature", MiniatureFile);
@@ -170,8 +229,9 @@ namespace Biblivres.Forms
                 command.Parameters.AddWithValue("@Nb_Pages", numericUpDownPage.Value);
                 command.Parameters.AddWithValue("@Editeur", textBoxEditeur.Text);
                 command.Parameters.AddWithValue("@Quantity", numericUpDownQuantity.Value);
+                command.Parameters.AddWithValue("@Id_Livre", BookId);
                 command.ExecuteReader();     // Here our query will be executed and data saved into the database.
-                MessageBox.Show("New Livre Added Successfully!!");
+                MessageBox.Show("Livre Modify Successfully!!");
                 OpenFrom.ActivateButton(OpenFrom.iconBtnRead, MainColor);
                 OpenFrom.OpenChildForm(new FormRead(MainColor, OpenFrom));
 

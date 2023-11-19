@@ -32,14 +32,15 @@ namespace Biblivres
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainMenu));
             this.sideBar = new System.Windows.Forms.Panel();
-            this.iconBtnDelete = new FontAwesome.Sharp.IconButton();
-            this.iconBtnUpdate = new FontAwesome.Sharp.IconButton();
+            this.iconBtnManage = new FontAwesome.Sharp.IconButton();
             this.iconBtnNew = new FontAwesome.Sharp.IconButton();
             this.iconBtnRead = new FontAwesome.Sharp.IconButton();
             this.panelLogo = new System.Windows.Forms.Panel();
             this.btnHome = new System.Windows.Forms.PictureBox();
             this.closeButton = new System.Windows.Forms.Button();
             this.topBar = new System.Windows.Forms.Panel();
+            this.buttonMinimize = new System.Windows.Forms.Button();
+            this.buttonMax = new System.Windows.Forms.Button();
             this.labelCurrentChildForm = new System.Windows.Forms.Label();
             this.iconCurrentChildForm = new FontAwesome.Sharp.IconPictureBox();
             this.panelMain = new System.Windows.Forms.Panel();
@@ -53,8 +54,7 @@ namespace Biblivres
             // sideBar
             // 
             this.sideBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(68)))));
-            this.sideBar.Controls.Add(this.iconBtnDelete);
-            this.sideBar.Controls.Add(this.iconBtnUpdate);
+            this.sideBar.Controls.Add(this.iconBtnManage);
             this.sideBar.Controls.Add(this.iconBtnNew);
             this.sideBar.Controls.Add(this.iconBtnRead);
             this.sideBar.Controls.Add(this.panelLogo);
@@ -66,49 +66,27 @@ namespace Biblivres
             this.sideBar.Size = new System.Drawing.Size(200, 900);
             this.sideBar.TabIndex = 2;
             // 
-            // iconBtnDelete
+            // iconBtnManage
             // 
-            this.iconBtnDelete.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iconBtnDelete.FlatAppearance.BorderSize = 0;
-            this.iconBtnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnDelete.ForeColor = System.Drawing.Color.Gainsboro;
-            this.iconBtnDelete.IconChar = FontAwesome.Sharp.IconChar.Eraser;
-            this.iconBtnDelete.IconColor = System.Drawing.Color.Gainsboro;
-            this.iconBtnDelete.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDelete.Location = new System.Drawing.Point(0, 400);
-            this.iconBtnDelete.Name = "iconBtnDelete";
-            this.iconBtnDelete.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.iconBtnDelete.Size = new System.Drawing.Size(200, 100);
-            this.iconBtnDelete.TabIndex = 8;
-            this.iconBtnDelete.Text = "Delete Livre";
-            this.iconBtnDelete.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnDelete.UseVisualStyleBackColor = true;
-            this.iconBtnDelete.Click += new System.EventHandler(this.iconBtnDelete_Click);
-            // 
-            // iconBtnUpdate
-            // 
-            this.iconBtnUpdate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iconBtnUpdate.FlatAppearance.BorderSize = 0;
-            this.iconBtnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnUpdate.ForeColor = System.Drawing.Color.Gainsboro;
-            this.iconBtnUpdate.IconChar = FontAwesome.Sharp.IconChar.Upload;
-            this.iconBtnUpdate.IconColor = System.Drawing.Color.Gainsboro;
-            this.iconBtnUpdate.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnUpdate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnUpdate.Location = new System.Drawing.Point(0, 300);
-            this.iconBtnUpdate.Name = "iconBtnUpdate";
-            this.iconBtnUpdate.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.iconBtnUpdate.Size = new System.Drawing.Size(200, 100);
-            this.iconBtnUpdate.TabIndex = 7;
-            this.iconBtnUpdate.Text = "Update Livre";
-            this.iconBtnUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnUpdate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnUpdate.UseVisualStyleBackColor = true;
-            this.iconBtnUpdate.Click += new System.EventHandler(this.iconBtnUpdate_Click);
+            this.iconBtnManage.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iconBtnManage.FlatAppearance.BorderSize = 0;
+            this.iconBtnManage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconBtnManage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iconBtnManage.ForeColor = System.Drawing.Color.Gainsboro;
+            this.iconBtnManage.IconChar = FontAwesome.Sharp.IconChar.Upload;
+            this.iconBtnManage.IconColor = System.Drawing.Color.Gainsboro;
+            this.iconBtnManage.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconBtnManage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnManage.Location = new System.Drawing.Point(0, 300);
+            this.iconBtnManage.Name = "iconBtnManage";
+            this.iconBtnManage.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.iconBtnManage.Size = new System.Drawing.Size(200, 100);
+            this.iconBtnManage.TabIndex = 7;
+            this.iconBtnManage.Text = "Manage Livre";
+            this.iconBtnManage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnManage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.iconBtnManage.UseVisualStyleBackColor = true;
+            this.iconBtnManage.Click += new System.EventHandler(this.iconBtnManage_Click);
             // 
             // iconBtnNew
             // 
@@ -181,7 +159,7 @@ namespace Biblivres
             this.closeButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.closeButton.BackColor = System.Drawing.Color.Transparent;
             this.closeButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("closeButton.BackgroundImage")));
-            this.closeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.closeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.closeButton.FlatAppearance.BorderSize = 0;
             this.closeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.closeButton.ForeColor = System.Drawing.Color.Transparent;
@@ -196,6 +174,8 @@ namespace Biblivres
             // topBar
             // 
             this.topBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
+            this.topBar.Controls.Add(this.buttonMinimize);
+            this.topBar.Controls.Add(this.buttonMax);
             this.topBar.Controls.Add(this.labelCurrentChildForm);
             this.topBar.Controls.Add(this.iconCurrentChildForm);
             this.topBar.Controls.Add(this.closeButton);
@@ -207,6 +187,40 @@ namespace Biblivres
             this.topBar.Size = new System.Drawing.Size(1500, 100);
             this.topBar.TabIndex = 2;
             this.topBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelTitleBar_MouseDown);
+            // 
+            // buttonMinimize
+            // 
+            this.buttonMinimize.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonMinimize.BackColor = System.Drawing.Color.Transparent;
+            this.buttonMinimize.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonMinimize.BackgroundImage")));
+            this.buttonMinimize.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonMinimize.FlatAppearance.BorderSize = 0;
+            this.buttonMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMinimize.ForeColor = System.Drawing.Color.Transparent;
+            this.buttonMinimize.Location = new System.Drawing.Point(1313, 25);
+            this.buttonMinimize.Name = "buttonMinimize";
+            this.buttonMinimize.Size = new System.Drawing.Size(50, 49);
+            this.buttonMinimize.TabIndex = 4;
+            this.buttonMinimize.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonMinimize.UseVisualStyleBackColor = false;
+            this.buttonMinimize.Click += new System.EventHandler(this.buttonMinimize_Click);
+            // 
+            // buttonMax
+            // 
+            this.buttonMax.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonMax.BackColor = System.Drawing.Color.Transparent;
+            this.buttonMax.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonMax.BackgroundImage")));
+            this.buttonMax.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonMax.FlatAppearance.BorderSize = 0;
+            this.buttonMax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMax.ForeColor = System.Drawing.Color.Transparent;
+            this.buttonMax.Location = new System.Drawing.Point(1369, 28);
+            this.buttonMax.Name = "buttonMax";
+            this.buttonMax.Size = new System.Drawing.Size(50, 49);
+            this.buttonMax.TabIndex = 3;
+            this.buttonMax.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonMax.UseVisualStyleBackColor = false;
+            this.buttonMax.Click += new System.EventHandler(this.buttonMax_Click);
             // 
             // labelCurrentChildForm
             // 
@@ -251,7 +265,8 @@ namespace Biblivres
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.topBar);
             this.Controls.Add(this.sideBar);
-            this.MinimumSize = new System.Drawing.Size(810, 550);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(810, 570);
             this.Name = "FormMainMenu";
             this.Load += new System.EventHandler(this.FormMainMenu_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -272,13 +287,14 @@ namespace Biblivres
         private System.Windows.Forms.Panel topBar;
         public FontAwesome.Sharp.IconButton iconBtnRead;
         private Panel panelLogo;
-        private FontAwesome.Sharp.IconButton iconBtnUpdate;
+        private FontAwesome.Sharp.IconButton iconBtnManage;
         private FontAwesome.Sharp.IconButton iconBtnNew;
-        private FontAwesome.Sharp.IconButton iconBtnDelete;
         private PictureBox btnHome;
         private Panel panelMain;
         private FontAwesome.Sharp.IconPictureBox iconCurrentChildForm;
         public Label labelCurrentChildForm;
+        private Button buttonMax;
+        private Button buttonMinimize;
     }
 }
 
