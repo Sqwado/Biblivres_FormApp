@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Biblivres.Globals;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,42 +20,27 @@ namespace Biblivres.Forms
         private Color MainColor;
         private int BookId;
         private FormMainMenu OpenFrom;
-        private MySqlConnection connection;
-        private MySqlCommand command;
+        private MySqlDb mySqlDb = new MySqlDb();
 
         public FormReadOne(Color mainColor, FormMainMenu openFrom, int bookId)
         {
             MainColor = mainColor;
             OpenFrom = openFrom;
             BookId = bookId;
-            InitConnection();
+            mySqlDb.InitConnection();
             InitializeComponent();
             this.BackColor = MainColor;
             RecupLivres();
         }
 
-        private void InitConnection()
-        {
-            try
-            {
-                connection = new MySqlConnection(Globals.Globals.connectionString);
-                connection.Open();
-            }
-            catch (MySqlException e)
-            {
-                Console.WriteLine(e.Message);
-                Environment.Exit(1);
-            }
-        }
-
         private void RecupLivres()
         {
             string query = "select * from Livres join Auteur on Livres.Id_Auteur = Auteur.Id_Auteur join Langue on Livres.Id_Langue = Langue.Id_Langue where Id_livre = @id_livre";
-            command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id_livre", BookId);
-            MySqlDataAdapter data = new MySqlDataAdapter(command);
+            mySqlDb.command = new MySqlCommand(query, mySqlDb.connection);
+            mySqlDb.command.Parameters.AddWithValue("@id_livre", BookId);
+            mySqlDb.data = new MySqlDataAdapter(mySqlDb.command);
             DataTable table = new DataTable();
-            data.Fill(table);
+            mySqlDb.data.Fill(table);
 
             foreach (DataRow row in table.Rows)
             {
@@ -76,9 +62,9 @@ namespace Biblivres.Forms
 
             }
 
-            if (connection.State == ConnectionState.Open)
+            if (mySqlDb.connection.State == ConnectionState.Open)
             {
-                connection.Close();
+                mySqlDb.connection.Close();
             }
 
         }

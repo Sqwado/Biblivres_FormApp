@@ -21,11 +21,8 @@ namespace Biblivres.Forms
         private Color MainColor;
         private int BookId;
         private FormMainMenu OpenFrom;
-        private MySqlConnection connection;
-        private MySqlCommand command;
         private byte[] MiniatureFile;
-        private MySqlDataAdapter data;
-
+        private MySqlDb mySqlDb = new MySqlDb();
         private ComboItem[] Langues = new ComboItem[] { };
         private ComboItem[] Auteurs = new ComboItem[] { };
         private ComboItem[] Genres = new ComboItem[] { };
@@ -36,7 +33,7 @@ namespace Biblivres.Forms
             MainColor = mainColor;
             OpenFrom = openFrom;
             BookId = bookId;
-            InitConnection();
+            mySqlDb.InitConnection();
             InitializeComponent();
             this.BackColor = MainColor;
             GetLangue();
@@ -47,27 +44,13 @@ namespace Biblivres.Forms
 
         }
 
-        private void InitConnection()
-        {
-            try
-            {
-                connection = new MySqlConnection(Globals.Globals.connectionString);
-                connection.Open();
-            }
-            catch (MySqlException e)
-            {
-                Console.WriteLine(e.Message);
-                Environment.Exit(1);
-            }
-        }
-
         private void GetLangue()
         {
             string query = "select * from Langue";
-            command = new MySqlCommand(query, connection);
-            data = new MySqlDataAdapter(command);
+            mySqlDb.command = new MySqlCommand(query, mySqlDb.connection);
+            mySqlDb.data = new MySqlDataAdapter(mySqlDb.command);
             DataTable table = new DataTable();
-            data.Fill(table);
+            mySqlDb.data.Fill(table);
 
             foreach (DataRow row in table.Rows)
             {
@@ -83,10 +66,10 @@ namespace Biblivres.Forms
         private void GetAuteur()
         {
             string query = "select * from Auteur";
-            command = new MySqlCommand(query, connection);
-            data = new MySqlDataAdapter(command);
+            mySqlDb.command = new MySqlCommand(query, mySqlDb.connection);
+            mySqlDb.data = new MySqlDataAdapter(mySqlDb.command);
             DataTable table = new DataTable();
-            data.Fill(table);
+            mySqlDb.data.Fill(table);
 
             foreach (DataRow row in table.Rows)
             {
@@ -100,10 +83,10 @@ namespace Biblivres.Forms
         private void GetGenre()
         {
             string query = "select * from Genre";
-            command = new MySqlCommand(query, connection);
-            data = new MySqlDataAdapter(command);
+            mySqlDb.command = new MySqlCommand(query, mySqlDb.connection);
+            mySqlDb.data = new MySqlDataAdapter(mySqlDb.command);
             DataTable table = new DataTable();
-            data.Fill(table);
+            mySqlDb.data.Fill(table);
 
             foreach (DataRow row in table.Rows)
             {
@@ -117,10 +100,10 @@ namespace Biblivres.Forms
         private void GetTypes()
         {
             string query = "select * from Types";
-            command = new MySqlCommand(query, connection);
-            data = new MySqlDataAdapter(command);
+            mySqlDb.command = new MySqlCommand(query, mySqlDb.connection);
+            mySqlDb.data = new MySqlDataAdapter(mySqlDb.command);
             DataTable table = new DataTable();
-            data.Fill(table);
+            mySqlDb.data.Fill(table);
 
             foreach (DataRow row in table.Rows)
             {
@@ -147,11 +130,11 @@ namespace Biblivres.Forms
         private void GetLivre()
         {
             string query = "select * from Livres where Id_Livre = @Id_Livre";
-            command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@Id_Livre", BookId);
-            data = new MySqlDataAdapter(command);
+            mySqlDb.command = new MySqlCommand(query, mySqlDb.connection);
+            mySqlDb.command.Parameters.AddWithValue("@Id_Livre", BookId);
+            mySqlDb.data = new MySqlDataAdapter(mySqlDb.command);
             DataTable table = new DataTable();
-            data.Fill(table);
+            mySqlDb.data.Fill(table);
 
             foreach (DataRow row in table.Rows)
             {
@@ -181,7 +164,7 @@ namespace Biblivres.Forms
         private void buttonMiniature_Click(object sender, EventArgs e)
         {
             OpenFileDialog opnfd = new OpenFileDialog();
-            opnfd.Filter = "Image Files (*.jpg;*.jpeg;.*.gif;)|*.jpg;*.jpeg;.*.gif";
+            opnfd.Filter = "Image Files (*.jpg;*.jpeg;*.png;.*.gif;)|*.jpg;*.jpeg;*.png;.*.gif";
             if (opnfd.ShowDialog() == DialogResult.OK)
             {
                 pictureBoxMiniature.Image = new Bitmap(opnfd.FileName);
@@ -216,28 +199,28 @@ namespace Biblivres.Forms
             try
             {
                 string query = "update Livres SET Titre_Livre = @Titre_Livre, Miniature = @Miniature, Intrigue = @Intrigue, Id_Langue = @Id_Langue, Date_Publi = @Date_Publi, Id_Auteur = @Id_Auteur, Id_Genre = @Id_Genre, Id_Types = @Id_Types, Prix = @Prix, Nb_Pages = @Nb_Pages, Editeur = @Editeur, Quantity = @Quantity where Id_Livre = @Id_Livre;";
-                command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Titre_Livre", textBoxTitre.Text);
-                command.Parameters.AddWithValue("@Miniature", MiniatureFile);
-                command.Parameters.AddWithValue("@Intrigue", textBoxIntrigue.Text);
-                command.Parameters.AddWithValue("@Id_Langue", ((ComboItem)comboBoxLangue.SelectedItem).ID);
-                command.Parameters.AddWithValue("@Date_Publi", dateTimePickerDate.Value);
-                command.Parameters.AddWithValue("@Id_Auteur", ((ComboItem)comboBoxAuteur.SelectedItem).ID);
-                command.Parameters.AddWithValue("@Id_Genre", ((ComboItem)comboBoxGenre.SelectedItem).ID);
-                command.Parameters.AddWithValue("@Id_Types", ((ComboItem)comboBoxType.SelectedItem).ID);
-                command.Parameters.AddWithValue("@Prix", numericUpDownPrix.Value);
-                command.Parameters.AddWithValue("@Nb_Pages", numericUpDownPage.Value);
-                command.Parameters.AddWithValue("@Editeur", textBoxEditeur.Text);
-                command.Parameters.AddWithValue("@Quantity", numericUpDownQuantity.Value);
-                command.Parameters.AddWithValue("@Id_Livre", BookId);
-                command.ExecuteReader();     // Here our query will be executed and data saved into the database.
+                mySqlDb.command = new MySqlCommand(query, mySqlDb.connection);
+                mySqlDb.command.Parameters.AddWithValue("@Titre_Livre", textBoxTitre.Text);
+                mySqlDb.command.Parameters.AddWithValue("@Miniature", MiniatureFile);
+                mySqlDb.command.Parameters.AddWithValue("@Intrigue", textBoxIntrigue.Text);
+                mySqlDb.command.Parameters.AddWithValue("@Id_Langue", ((ComboItem)comboBoxLangue.SelectedItem).ID);
+                mySqlDb.command.Parameters.AddWithValue("@Date_Publi", dateTimePickerDate.Value);
+                mySqlDb.command.Parameters.AddWithValue("@Id_Auteur", ((ComboItem)comboBoxAuteur.SelectedItem).ID);
+                mySqlDb.command.Parameters.AddWithValue("@Id_Genre", ((ComboItem)comboBoxGenre.SelectedItem).ID);
+                mySqlDb.command.Parameters.AddWithValue("@Id_Types", ((ComboItem)comboBoxType.SelectedItem).ID);
+                mySqlDb.command.Parameters.AddWithValue("@Prix", numericUpDownPrix.Value);
+                mySqlDb.command.Parameters.AddWithValue("@Nb_Pages", numericUpDownPage.Value);
+                mySqlDb.command.Parameters.AddWithValue("@Editeur", textBoxEditeur.Text);
+                mySqlDb.command.Parameters.AddWithValue("@Quantity", numericUpDownQuantity.Value);
+                mySqlDb.command.Parameters.AddWithValue("@Id_Livre", BookId);
+                mySqlDb.command.ExecuteReader();     // Here our query will be executed and data saved into the database.
                 MessageBox.Show("Livre Modify Successfully!!");
                 OpenFrom.ActivateButton(OpenFrom.iconBtnRead, MainColor);
                 OpenFrom.OpenChildForm(new FormRead(MainColor, OpenFrom));
 
-                if (connection.State == ConnectionState.Open)
+                if (mySqlDb.connection.State == ConnectionState.Open)
                 {
-                    connection.Close();
+                    mySqlDb.connection.Close();
                 }
             }
             catch (Exception ex)

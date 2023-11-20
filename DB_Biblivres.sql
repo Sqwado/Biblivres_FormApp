@@ -3,6 +3,14 @@
 CREATE DATABASE IF NOT EXISTS `biblivres`;
 USE `biblivres`;
 
+-- Listage de la structure de table biblivres. Admin
+CREATE TABLE IF NOT EXISTS `Admin` (
+  `Id_admin` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `Password` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Id_admin`)
+) ENGINE=InnoDB ;
+
 -- Listage de la structure de table biblivres. Auteur
 CREATE TABLE IF NOT EXISTS `Auteur` (
   `Id_Auteur` int(10) NOT NULL AUTO_INCREMENT,

@@ -19,7 +19,7 @@ namespace Biblivres
             DotNetEnv.Env.TraversePath().Load();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMainMenu());
+            Application.Run(new FormLogin());
         }
     }
 }
