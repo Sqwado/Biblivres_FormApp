@@ -1,16 +1,12 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using MySql.Data.MySqlClient;
 
 namespace Biblivres.Globals
 {
     internal class MySqlDb
     {
-        public MySqlConnection connection;
         public MySqlCommand command;
+        public MySqlConnection connection;
         public MySqlDataAdapter data;
 
         public void InitConnection()

@@ -1,24 +1,19 @@
-﻿using Biblivres.Globals;
-using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Biblivres.Globals;
+using MySql.Data.MySqlClient;
 
 namespace Biblivres.Forms
 {
     public partial class FormRead : Form
     {
         // Fields
-        private Color MainColor;
-        private FormMainMenu OpenFrom;
-        private Globals.MySqlDb mySqlDb = new Globals.MySqlDb();
+        private readonly Color MainColor;
+        private readonly MySqlDb mySqlDb = new MySqlDb();
+        private readonly FormMainMenu OpenFrom;
 
         public FormRead(Color mainColor, FormMainMenu openFrom)
         {
@@ -26,38 +21,38 @@ namespace Biblivres.Forms
             OpenFrom = openFrom;
             mySqlDb.InitConnection();
             InitializeComponent();
-            this.BackColor = MainColor;
+            BackColor = MainColor;
 
             RecupLivres();
         }
 
         private void RecupLivres()
         {
-            string query = "select * from Livres order by Titre_Livre";
+            var query = "select * from Livres order by Titre_Livre";
             mySqlDb.command = new MySqlCommand(query, mySqlDb.connection);
             mySqlDb.data = new MySqlDataAdapter(mySqlDb.command);
-            DataTable table = new DataTable();
+            var table = new DataTable();
             mySqlDb.data.Fill(table);
             flowLayoutPanel.Controls.Clear();
             foreach (DataRow row in table.Rows)
             {
-                byte[] imgg = (byte[])row["Miniature"];
-                MemoryStream ms = new MemoryStream(imgg);
+                var imgg = (byte[])row["Miniature"];
+                var ms = new MemoryStream(imgg);
 
-                Panel panel = new Panel();
+                var panel = new Panel();
 
-                PictureBox pictureBox = new PictureBox();
+                var pictureBox = new PictureBox();
                 pictureBox.Image = Image.FromStream(ms);
                 pictureBox.Location = new Point(15, 60);
                 pictureBox.Size = new Size(220, 330);
                 pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
                 pictureBox.Enabled = false;
 
-                Label label = new Label();
+                var label = new Label();
                 label.Dock = DockStyle.Top;
                 label.TextAlign = ContentAlignment.MiddleCenter;
                 label.Size = new Size(250, 60);
-                label.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0)));
+                label.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
                 label.Text = (string)row["Titre_Livre"];
                 label.Enabled = false;
 
@@ -65,28 +60,22 @@ namespace Biblivres.Forms
                 panel.Controls.Add(pictureBox);
                 panel.Controls.Add(label);
                 panel.Size = new Size(250, 400);
-                panel.Margin = new System.Windows.Forms.Padding(10);
+                panel.Margin = new Padding(10);
                 panel.Name = row["Id_Livre"].ToString();
                 panel.Click += panel_Click;
 
                 flowLayoutPanel.Controls.Add(panel);
-
             }
 
-            if (mySqlDb.connection.State == ConnectionState.Open)
-            {
-                mySqlDb.connection.Close();
-            }
-
+            if (mySqlDb.connection.State == ConnectionState.Open) mySqlDb.connection.Close();
         }
 
         private void panel_Click(object sender, EventArgs e)
         {
-            Panel panel = (sender as Panel);
+            var panel = sender as Panel;
             Console.WriteLine(panel.Name);
             OpenFrom.DisableButton();
             OpenFrom.OpenChildForm(new FormReadOne(MainColor, OpenFrom, int.Parse(panel.Name)));
         }
-
     }
 }

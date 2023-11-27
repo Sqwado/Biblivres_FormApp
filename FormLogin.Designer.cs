@@ -35,9 +35,9 @@
             this.textBoxPass = new System.Windows.Forms.TextBox();
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxPass = new System.Windows.Forms.CheckBox();
-            this.buttonLog = new System.Windows.Forms.Button();
             this.buttonClear = new System.Windows.Forms.Button();
+            this.buttonLog = new System.Windows.Forms.Button();
+            this.checkBoxPass = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,16 +122,19 @@
             this.panel1.Size = new System.Drawing.Size(500, 648);
             this.panel1.TabIndex = 4;
             // 
-            // checkBoxPass
+            // buttonClear
             // 
-            this.checkBoxPass.AutoSize = true;
-            this.checkBoxPass.Location = new System.Drawing.Point(282, 344);
-            this.checkBoxPass.Name = "checkBoxPass";
-            this.checkBoxPass.Size = new System.Drawing.Size(148, 24);
-            this.checkBoxPass.TabIndex = 4;
-            this.checkBoxPass.Text = "Show Password";
-            this.checkBoxPass.UseVisualStyleBackColor = true;
-            this.checkBoxPass.CheckedChanged += new System.EventHandler(this.checkBoxPass_CheckedChanged);
+            this.buttonClear.BackColor = System.Drawing.Color.Black;
+            this.buttonClear.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonClear.Font = new System.Drawing.Font("Nirmala UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(33)))), ((int)(((byte)(122)))));
+            this.buttonClear.Location = new System.Drawing.Point(60, 516);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(370, 70);
+            this.buttonClear.TabIndex = 6;
+            this.buttonClear.Text = "Clear";
+            this.buttonClear.UseVisualStyleBackColor = false;
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
             // buttonLog
             // 
@@ -147,19 +150,16 @@
             this.buttonLog.UseVisualStyleBackColor = false;
             this.buttonLog.Click += new System.EventHandler(this.buttonLog_Click);
             // 
-            // buttonClear
+            // checkBoxPass
             // 
-            this.buttonClear.BackColor = System.Drawing.Color.Black;
-            this.buttonClear.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonClear.Font = new System.Drawing.Font("Nirmala UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(33)))), ((int)(((byte)(122)))));
-            this.buttonClear.Location = new System.Drawing.Point(60, 516);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(370, 70);
-            this.buttonClear.TabIndex = 6;
-            this.buttonClear.Text = "Clear";
-            this.buttonClear.UseVisualStyleBackColor = false;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            this.checkBoxPass.AutoSize = true;
+            this.checkBoxPass.Location = new System.Drawing.Point(282, 344);
+            this.checkBoxPass.Name = "checkBoxPass";
+            this.checkBoxPass.Size = new System.Drawing.Size(148, 24);
+            this.checkBoxPass.TabIndex = 4;
+            this.checkBoxPass.Text = "Show Password";
+            this.checkBoxPass.UseVisualStyleBackColor = true;
+            this.checkBoxPass.CheckedChanged += new System.EventHandler(this.checkBoxPass_CheckedChanged);
             // 
             // FormLogin
             // 
